@@ -89,9 +89,8 @@ header(S, _) :-
 	format(S, '~p~t~18| ~t~w~25| ~t~w~32|~n', ['Program', 'Time', 'GC']),
 	format(S, '~`=t~32|~n', []).
 
-footer(S, AvgT, AvgGC, csv) :-
-	!,
-	report_time(S, average, AvgT, AvgGC, csv).
+footer(_, _AvgT, _AvgGC, csv) :-	       % average is handled outside
+	!.
 footer(S, AvgT, AvgGC, _) :-
 	format(S, '~t~w~18| ~t~3f~25| ~t~3f~32|~n', [average, AvgT, AvgGC]).
 
@@ -158,6 +157,8 @@ report_time(S, Program, Time, GC, csv) :-
 	format(S, '~w,~3f,~3f~n', [Program, Time, GC]).
 report_time(S, Program, Time, GC, _) :-
 	format(S, '~p~t~18| ~t~3f~25| ~t~3f~32|~n', [Program, Time, GC]).
+
+:- meta_predicate ntimes(0,?).
 
 ntimes(M, N, T, GC):-
 	top(M, Goal),
